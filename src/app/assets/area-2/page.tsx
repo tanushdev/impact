@@ -94,7 +94,7 @@ export default function Area2Page() {
                 </h3>
                 <div className="space-y-2 text-[15px]">
                   <p className="text-gray-800 font-medium">
-                    Impact Energies Limited: 90% (Operator)*
+                    Impact Energies: 90% (Operator)*
                   </p>
                   <p className="text-gray-800 font-medium">
                     Silver Wave Energy Pte Ltd 10%

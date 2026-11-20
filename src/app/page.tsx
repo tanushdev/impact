@@ -144,84 +144,14 @@ export default function HomePage() {
                 className="text-3xl md:text-[36px] lg:text-[40px] font-bold text-gray-900 tracking-tight leading-[1.18]"
               >
                 Latest News &amp; Announcements <br />
-                from Impact Energies Limited
+                from Impact Energies
               </motion.h2>
 
-              {/* Accordion List with staggered scroll reveal */}
+              {/* Clean updates overview */}
               <div className="space-y-4 max-w-lg pt-2">
-                {/* Item 1: Energy Asia 2027 */}
-                <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.4 }}
-                  variants={fadeInUp}
-                  custom={1}
-                  className="border-b border-gray-200/90 pb-4"
-                >
-                  <button
-                    onClick={() => setOpenAccordion(openAccordion === 0 ? null : 0)}
-                    className="w-full flex items-center justify-between text-left group cursor-pointer focus:outline-none"
-                    aria-expanded={openAccordion === 0}
-                  >
-                    <span className="text-[17px] md:text-lg font-bold text-gray-800 group-hover:text-[#007580] transition-colors">
-                      Energy Asia 2027
-                    </span>
-                    <span className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 group-hover:border-[#007580] group-hover:text-[#007580] transition-colors flex-shrink-0">
-                      {openAccordion === 0 ? (
-                        <Minus className="w-3.5 h-3.5 text-[#007580]" />
-                      ) : (
-                        <ChevronDown className="w-3.5 h-3.5" />
-                      )}
-                    </span>
-                  </button>
-                  {openAccordion === 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      transition={{ duration: 0.25, ease: 'easeOut' }}
-                      className="pt-3 text-[15px] text-gray-600 leading-relaxed"
-                    >
-                      Impact Energies Limited will showcase deepwater frontier exploration achievements and operational progress at Energy Asia 2027.
-                    </motion.div>
-                  )}
-                </motion.div>
-
-                {/* Item 2: Save the Date Announced */}
-                <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.4 }}
-                  variants={fadeInUp}
-                  custom={2}
-                  className="border-b border-gray-200/90 pb-4"
-                >
-                  <button
-                    onClick={() => setOpenAccordion(openAccordion === 1 ? null : 1)}
-                    className="w-full flex items-center justify-between text-left group cursor-pointer focus:outline-none"
-                    aria-expanded={openAccordion === 1}
-                  >
-                    <span className="text-[17px] md:text-lg font-bold text-gray-800 group-hover:text-[#007580] transition-colors">
-                      Save the Date Announced
-                    </span>
-                    <span className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 group-hover:border-[#007580] group-hover:text-[#007580] transition-colors flex-shrink-0">
-                      {openAccordion === 1 ? (
-                        <Minus className="w-3.5 h-3.5 text-[#007580]" />
-                      ) : (
-                        <ChevronDown className="w-3.5 h-3.5" />
-                      )}
-                    </span>
-                  </button>
-                  {openAccordion === 1 && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      transition={{ duration: 0.25, ease: 'easeOut' }}
-                      className="pt-3 text-[15px] text-gray-600 leading-relaxed"
-                    >
-                      Official dates announced for upcoming investor briefings, operational updates, and industry presentations.
-                    </motion.div>
-                  )}
-                </motion.div>
+                <p className="text-[15px] text-gray-600 leading-relaxed font-light">
+                  Keep up with our latest exploration milestones, technical presentations, and corporate announcements.
+                </p>
               </div>
 
               {/* Know More link with green bullet */}
@@ -258,7 +188,7 @@ export default function HomePage() {
         >
           <Image
             src="/images/home-news-graphic-full.png"
-            alt="Impact Energies Limited Exploration Facilities and Green Energy Assets"
+            alt="Impact Energies Exploration Facilities and Green Energy Assets"
             width={1024}
             height={641}
             unoptimized

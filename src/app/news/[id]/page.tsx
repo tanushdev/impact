@@ -16,7 +16,7 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
       <section className="relative w-full min-h-[420px] md:min-h-[460px] flex items-center bg-black overflow-hidden pt-28 pb-14">
         <Image
           src="/images/news-hero.jpg"
-          alt="Impact Energies Limited Press Statement"
+          alt="Impact Energies Press Statement"
           fill
           priority
           className="object-cover object-center opacity-70"
@@ -41,7 +41,7 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
               Press Release
             </h1>
             <p className="text-[15px] md:text-base text-gray-200 font-light leading-relaxed max-w-xl">
-              Official press statement and regulatory announcement from Impact Energies Limited.
+              Official press statement and regulatory announcement from Impact Energies.
             </p>
           </div>
         </div>
@@ -75,7 +75,7 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
             {/* Left Column */}
             <div className="lg:col-span-6 space-y-6">
               <p>
-                Impact Energies Limited (&quot;Impact&quot; or the &quot;Company&quot;) has announced a corporate
+                Impact Energies (&quot;Impact&quot; or the &quot;Company&quot;) has announced a corporate
                 reorganisation to separate its Namibian exploration and development business from its
                 South African exploration portfolio, establishing distinct entities with clear strategic mandates.
               </p>
@@ -134,7 +134,7 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
                   represent high-impact exploration value:
                 </p>
                 <ul className="list-disc pl-5 space-y-2 text-gray-600">
-                  {article.bulletPoints?.map((bp, i) => (
+                  {article.bulletPoints?.map((bp: string, i: number) => (
                     <li key={i}>{bp}</li>
                   ))}
                 </ul>

@@ -19,7 +19,7 @@ export const ImpactLogo: React.FC<ImpactLogoProps> = ({
     <Link href="/" className={`inline-block group ${className}`}>
       <Image
         src={logoSrc}
-        alt="Impact Energies Limited"
+        alt="Impact Energies"
         width={208}
         height={61}
         priority

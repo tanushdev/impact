@@ -45,7 +45,7 @@ export default function TermsAndConditionsPage() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="text-[15px] md:text-base text-gray-200 font-light leading-relaxed max-w-xl"
             >
-              Terms and Conditions for Use of the Impact Energies Limited website.
+              Terms and Conditions for Use of the Impact Energies website.
             </motion.p>
           </div>
         </div>
@@ -339,12 +339,10 @@ export default function TermsAndConditionsPage() {
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-[#6AA335] mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="font-bold text-gray-900">Impact Energies Limited</h3>
+                    <h3 className="font-bold text-gray-900">Impact Energies</h3>
                     <p className="text-gray-600">
-                      Griffin House,<br />
-                      West Street,<br />
-                      Woking, Surrey,<br />
-                      GU21 6BS<br />
+                      2nd Floor, 40 Queen Street,<br />
+                      London, EC4R 1DD,<br />
                       United Kingdom
                     </p>
                   </div>
@@ -353,10 +351,10 @@ export default function TermsAndConditionsPage() {
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-[#6AA335] flex-shrink-0" />
                   <a
-                    href="mailto:info@impactoilandgas.com"
+                    href="mailto:info@impactenergies.com"
                     className="font-medium text-[#007580] hover:underline"
                   >
-                    info@impactoilandgas.com
+                    info@impactenergies.com
                   </a>
                 </div>
               </div>
@@ -366,22 +364,12 @@ export default function TermsAndConditionsPage() {
                   <Phone className="w-5 h-5 text-[#6AA335] mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-bold text-gray-900">Telephone</h3>
-                    <p className="text-gray-600">From within the UK: 01483 750 588</p>
-                    <p className="text-gray-600">International: +44 1483 750 588</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <Printer className="w-5 h-5 text-[#6AA335] mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-bold text-gray-900">Fax</h3>
-                    <p className="text-gray-600">From within the UK: 01483 730 255</p>
-                    <p className="text-gray-600">International: +44 1483 730 255</p>
+                    <p className="text-gray-600">+44(0) 204 617 8881</p>
                   </div>
                 </div>
 
                 <div className="pt-2 border-t border-[#E1ECD4] flex flex-wrap gap-x-6 gap-y-1 text-sm text-gray-600">
-                  <p><strong className="text-gray-900">Company Reg:</strong> 07599770</p>
+                  <p><strong className="text-gray-900">Company Reg:</strong> 17054603</p>
                   <p><strong className="text-gray-900">VAT Reg:</strong> GB 218 668675</p>
                 </div>
               </div>

@@ -136,7 +136,7 @@ export const Footer: React.FC = () => {
                   <MapPin className="w-4 h-4 text-white" />
                 </div>
                 <span className="leading-snug text-gray-600">
-                  27 Old Gloucester Street, London, United Kingdom, WC1N 3AX
+                  2nd Floor, 40 Queen Street, London, EC4R 1DD, United Kingdom
                 </span>
               </div>
             </div>

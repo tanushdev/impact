@@ -33,7 +33,7 @@ export default function NewsPage() {
       <section className="relative w-full min-h-[440px] md:min-h-[480px] flex items-center bg-black overflow-hidden pt-28 pb-16">
         <Image
           src="/images/news-hero.jpg"
-          alt="Impact Energies Limited Press Releases and Media"
+          alt="Impact Energies Press Releases and Media"
           fill
           priority
           className="object-cover object-center opacity-75"
@@ -131,113 +131,119 @@ export default function NewsPage() {
         <div className="mt-8 md:mt-10">
           <h2 className="text-3xl md:text-4xl lg:text-[44px] font-bold text-[#141C16] tracking-tight leading-[1.15]">
             Latest News &amp; Announcements <br />
-            from Impact Energies Limited
+            from Impact Energies
           </h2>
         </div>
 
         {/* Subtle Horizontal Divider */}
         <div className="w-full border-t border-gray-200/80 my-8 md:my-10" />
 
-        {/* 2-Column Accordion List */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-2">
-          {/* Left Column (Items 1 - 4) */}
-          <div className="space-y-1">
-            {leftColNews.map((item) => {
-              const isOpen = expandedSlug === item.slug;
-              return (
-                <div key={item.slug} className="border-b border-gray-200/80 py-4 transition-colors">
-                  <button
-                    onClick={() => toggleAccordion(item.slug)}
-                    className="w-full flex items-center justify-between text-left group cursor-pointer focus:outline-none"
-                    aria-expanded={isOpen}
-                  >
-                    <span className="text-[15px] md:text-[16px] lg:text-[17px] font-bold text-[#141C16] group-hover:text-[#007580] transition-colors pr-4 leading-snug">
-                      {item.title}
-                    </span>
-                    <span className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-gray-400 group-hover:border-[#007580] group-hover:text-[#007580] transition-colors flex-shrink-0">
-                      {isOpen ? (
-                        <Minus className="w-3.5 h-3.5 text-[#007580]" />
-                      ) : (
-                        <ChevronDown className="w-3.5 h-3.5" />
-                      )}
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      transition={{ duration: 0.2 }}
-                      className="pt-3 text-[15px] text-gray-600 leading-relaxed space-y-3"
-                    >
-                      <div className="text-[13px] font-semibold text-[#6AA335] uppercase tracking-wider">
-                        {item.date} • {item.category}
-                      </div>
-                      <p>{item.summary}</p>
-                      <div>
-                        <Link
-                          href={`/news/${item.slug}`}
-                          className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#007580] hover:underline underline-offset-4"
-                        >
-                          <span>Read Full Statement</span>
-                          <ArrowUpRight className="w-4 h-4" />
-                        </Link>
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-              );
-            })}
+        {/* 2-Column Accordion List or Empty State */}
+        {filteredNews.length === 0 ? (
+          <div className="py-12 text-center text-gray-500 font-light text-base max-w-xl mx-auto">
+            There are currently no active public announcements or scheduled events. Please check back soon for our latest corporate releases and exploration updates.
           </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-2">
+            {/* Left Column */}
+            <div className="space-y-1">
+              {leftColNews.map((item) => {
+                const isOpen = expandedSlug === item.slug;
+                return (
+                  <div key={item.slug} className="border-b border-gray-200/80 py-4 transition-colors">
+                    <button
+                      onClick={() => toggleAccordion(item.slug)}
+                      className="w-full flex items-center justify-between text-left group cursor-pointer focus:outline-none"
+                      aria-expanded={isOpen}
+                    >
+                      <span className="text-[15px] md:text-[16px] lg:text-[17px] font-bold text-[#141C16] group-hover:text-[#007580] transition-colors pr-4 leading-snug">
+                        {item.title}
+                      </span>
+                      <span className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-gray-400 group-hover:border-[#007580] group-hover:text-[#007580] transition-colors flex-shrink-0">
+                        {isOpen ? (
+                          <Minus className="w-3.5 h-3.5 text-[#007580]" />
+                        ) : (
+                          <ChevronDown className="w-3.5 h-3.5" />
+                        )}
+                      </span>
+                    </button>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        transition={{ duration: 0.2 }}
+                        className="pt-3 text-[15px] text-gray-600 leading-relaxed space-y-3"
+                      >
+                        <div className="text-[13px] font-semibold text-[#6AA335] uppercase tracking-wider">
+                          {item.date} • {item.category}
+                        </div>
+                        <p>{item.summary}</p>
+                        <div>
+                          <Link
+                            href={`/news/${item.slug}`}
+                            className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#007580] hover:underline underline-offset-4"
+                          >
+                            <span>Read Full Statement</span>
+                            <ArrowUpRight className="w-4 h-4" />
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
 
-          {/* Right Column (Items 5 - 8) */}
-          <div className="space-y-1">
-            {rightColNews.map((item) => {
-              const isOpen = expandedSlug === item.slug;
-              return (
-                <div key={item.slug} className="border-b border-gray-200/80 py-4 transition-colors">
-                  <button
-                    onClick={() => toggleAccordion(item.slug)}
-                    className="w-full flex items-center justify-between text-left group cursor-pointer focus:outline-none"
-                    aria-expanded={isOpen}
-                  >
-                    <span className="text-[15px] md:text-[16px] lg:text-[17px] font-bold text-[#141C16] group-hover:text-[#007580] transition-colors pr-4 leading-snug">
-                      {item.title}
-                    </span>
-                    <span className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-gray-400 group-hover:border-[#007580] group-hover:text-[#007580] transition-colors flex-shrink-0">
-                      {isOpen ? (
-                        <Minus className="w-3.5 h-3.5 text-[#007580]" />
-                      ) : (
-                        <ChevronDown className="w-3.5 h-3.5" />
-                      )}
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      transition={{ duration: 0.2 }}
-                      className="pt-3 text-[15px] text-gray-600 leading-relaxed space-y-3"
+            {/* Right Column */}
+            <div className="space-y-1">
+              {rightColNews.map((item) => {
+                const isOpen = expandedSlug === item.slug;
+                return (
+                  <div key={item.slug} className="border-b border-gray-200/80 py-4 transition-colors">
+                    <button
+                      onClick={() => toggleAccordion(item.slug)}
+                      className="w-full flex items-center justify-between text-left group cursor-pointer focus:outline-none"
+                      aria-expanded={isOpen}
                     >
-                      <div className="text-[13px] font-semibold text-[#6AA335] uppercase tracking-wider">
-                        {item.date} • {item.category}
-                      </div>
-                      <p>{item.summary}</p>
-                      <div>
-                        <Link
-                          href={`/news/${item.slug}`}
-                          className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#007580] hover:underline underline-offset-4"
-                        >
-                          <span>Read Full Statement</span>
-                          <ArrowUpRight className="w-4 h-4" />
-                        </Link>
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-              );
-            })}
+                      <span className="text-[15px] md:text-[16px] lg:text-[17px] font-bold text-[#141C16] group-hover:text-[#007580] transition-colors pr-4 leading-snug">
+                        {item.title}
+                      </span>
+                      <span className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-gray-400 group-hover:border-[#007580] group-hover:text-[#007580] transition-colors flex-shrink-0">
+                        {isOpen ? (
+                          <Minus className="w-3.5 h-3.5 text-[#007580]" />
+                        ) : (
+                          <ChevronDown className="w-3.5 h-3.5" />
+                        )}
+                      </span>
+                    </button>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        transition={{ duration: 0.2 }}
+                        className="pt-3 text-[15px] text-gray-600 leading-relaxed space-y-3"
+                      >
+                        <div className="text-[13px] font-semibold text-[#6AA335] uppercase tracking-wider">
+                          {item.date} • {item.category}
+                        </div>
+                        <p>{item.summary}</p>
+                        <div>
+                          <Link
+                            href={`/news/${item.slug}`}
+                            className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#007580] hover:underline underline-offset-4"
+                          >
+                            <span>Read Full Statement</span>
+                            <ArrowUpRight className="w-4 h-4" />
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       {/* 3. MIDDLE PART (Bottom Half): Press Releases and Media Info (Figma Cream Background #FAFDF3) */}

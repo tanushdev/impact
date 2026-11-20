@@ -125,7 +125,7 @@ export default function InvestorsPage() {
       <section className="relative w-full min-h-[440px] md:min-h-[480px] flex items-center bg-black overflow-hidden pt-28 pb-16">
         <Image
           src="/images/figma/company-hero-bg.jpg"
-          alt="Impact Energies Limited Investors and Shareholder Relations"
+          alt="Impact Energies Investors and Shareholder Relations"
           fill
           priority
           className="object-cover object-center opacity-80"

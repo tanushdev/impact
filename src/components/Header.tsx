@@ -488,7 +488,7 @@ export const Header: React.FC = () => {
             </div>
 
             <div className="pt-6 border-t border-white/10 text-[15px] text-gray-400 space-y-2">
-              <p>Impact Energies Limited</p>
+              <p>Impact Energies</p>
               <p className="text-[15px] text-gray-400">info@impactenergies.com</p>
             </div>
           </div>

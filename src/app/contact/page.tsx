@@ -60,7 +60,7 @@ export default function ContactPage() {
       <section className="relative w-full min-h-[460px] md:min-h-[500px] flex items-center bg-black overflow-hidden pt-28 pb-14">
         <Image
           src="/images/geology-hero.jpg"
-          alt="Impact Energies Limited Geological Exploration Landscape"
+          alt="Impact Energies Geological Exploration Landscape"
           fill
           priority
           className="object-cover object-center opacity-75"
@@ -109,14 +109,6 @@ export default function ContactPage() {
                 <span className="text-xs font-bold uppercase tracking-widest text-[#007580]">
                   Get in touch
                 </span>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mt-2">
-                  Let&apos;s Talk About <br />
-                  What&apos;s Possible.
-                </h2>
-                <p className="mt-3 text-xs md:text-sm text-gray-600 leading-relaxed font-light max-w-lg">
-                  Whether you are a partner, investor, supplier or member of the press, our team will
-                  point you to the right person and reply promptly.
-                </p>
               </div>
 
               {/* 2x2 Grid of Office / Enquiry Info */}
@@ -189,7 +181,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <span className="text-[11px] text-gray-400 block font-medium">
-                      Impact Energies Limited
+                      Impact Energies
                     </span>
                     <p className="text-xs md:text-sm font-semibold text-gray-900 leading-snug">
                       2nd Floor, 40 Queen Street, London, EC4R 1DD, United Kingdom

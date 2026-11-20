@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="text-[15px] md:text-base text-gray-200 font-light leading-relaxed max-w-xl"
             >
-              Impact Energies Limited Privacy and Cookies Policy
+              Impact Energies Privacy and Cookies Policy
             </motion.p>
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function PrivacyPolicyPage() {
               <span>Last Updated: 16 May 2018</span>
             </div>
             <p className="text-[16px] md:text-[17px] text-gray-900 font-medium leading-relaxed">
-              Impact Energies Limited is committed to protecting your personal information. We comply with all UK and EU data protection legislation when collecting personal information from you as you visit this website.
+              Impact Energies is committed to protecting your personal information. We comply with all UK and EU data protection legislation when collecting personal information from you as you visit this website.
             </p>
             <p className="text-gray-600">
               We are a UK registered Data Controller, number <strong className="font-semibold text-gray-900">A8298163</strong> on the Information Commissioner’s Public Register of Data Controllers.
@@ -112,7 +112,7 @@ export default function PrivacyPolicyPage() {
               </h2>
             </div>
             <p>
-              If you’ve signed up to receive emails from us, we will contact you by email with updates about Impact Energies Limited. You may unsubscribe at any time by clicking the unsubscribe link on one of the emails, or by emailing{' '}
+              If you’ve signed up to receive emails from us, we will contact you by email with updates about Impact Energies. You may unsubscribe at any time by clicking the unsubscribe link on one of the emails, or by emailing{' '}
               <a href="mailto:info@impactenergies.com" className="text-[#007580] font-semibold hover:underline">
                 info@impactenergies.com
               </a>
@@ -156,8 +156,8 @@ export default function PrivacyPolicyPage() {
             </p>
             <p>
               If you are a Shareholder, your account in the Shareholder area will be kept active as long as you wish to receive Shareholder communications. In the case of newsletters, you may opt out at any time by following the process on any email from us to unsubscribe, or by contacting us at{' '}
-              <a href="mailto:info@impactoilandgas.com" className="text-[#007580] font-semibold hover:underline">
-                info@impactoilandgas.com
+              <a href="mailto:info@impactenergies.com" className="text-[#007580] font-semibold hover:underline">
+                info@impactenergies.com
               </a>
               .
             </p>
@@ -175,8 +175,8 @@ export default function PrivacyPolicyPage() {
             </div>
             <p>
               You have rights relating to your personal information. Please contact{' '}
-              <a href="mailto:info@impactoilandgas.com" className="text-[#007580] font-semibold hover:underline">
-                info@impactoilandgas.com
+              <a href="mailto:info@impactenergies.com" className="text-[#007580] font-semibold hover:underline">
+                info@impactenergies.com
               </a>{' '}
               if you wish to use these rights, such as making a request for your personal information, or asking us to update or delete your personal information.
             </p>

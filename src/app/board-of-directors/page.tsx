@@ -4,37 +4,19 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { boardMembers } from '@/lib/teamData';
 
 export default function BoardOfDirectorsPage() {
-  const executiveDirectors = [
-    {
-      name: 'SIRAJ AHMED',
-      role: 'CHIEF EXECUTIVE OFFICER',
-      cardImage: '/images/figma/siraj-ahmed-card.png',
-    },
-    {
-      name: 'SAMITAN SHARMA',
-      role: 'CHIEF FINANCIAL OFFICER',
-      cardImage: '/images/figma/samitan-sharma-card.png',
-    },
-  ];
-
-  const nonExecutiveDirectors = [
-    {
-      name: 'JOHNNY COPELYN',
-      role: 'NON-EXECUTIVE CHAIRMAN',
-      cardImage: '/images/figma/johnny-copelyn-card.png',
-    },
-    {
-      name: 'ROB NICOLELLA',
-      role: 'NON-EXECUTIVE DIRECTOR',
-      cardImage: '/images/figma/rob-nicolella-card.png',
-    },
-  ];
+  const executiveDirectors = boardMembers.filter(
+    (m) => m.category === 'executive-director'
+  );
+  const nonExecutiveDirectors = boardMembers.filter(
+    (m) => m.category === 'non-executive-director'
+  );
 
   return (
     <div className="w-full bg-white text-[#141C16]">
-      {/* 1. HERO SECTION (Exact 1:1 match to Figma) */}
+      {/* 1. HERO SECTION */}
       <section className="relative w-full min-h-[440px] md:min-h-[480px] flex items-center bg-black overflow-hidden pt-28 pb-16">
         <Image
           src="/images/figma/company-hero-bg.jpg"
@@ -70,13 +52,13 @@ export default function BoardOfDirectorsPage() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="text-[15px] md:text-base text-gray-200 font-light leading-relaxed max-w-xl"
             >
-              Impact Energies Limited has a strong management team and Board with a track record of success.
+              Impact Energies has a strong management team and Board with a track record of success.
             </motion.p>
           </div>
         </div>
       </section>
 
-      {/* 2. DIRECTORS SECTIONS (Exact 1:1 match to Figma) */}
+      {/* 2. DIRECTORS SECTIONS - Clickable linking to Bio Pages */}
       <section className="w-full max-w-[1360px] mx-auto px-6 md:px-12 pt-20 pb-24 bg-white">
         {/* Section 1: Executive Directors */}
         <div className="mb-20">
@@ -86,19 +68,22 @@ export default function BoardOfDirectorsPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 max-w-4xl mx-auto">
             {executiveDirectors.map((director) => (
-              <div
-                key={director.name}
-                className="w-[280px] sm:w-[320px] md:w-[340px] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+              <Link
+                key={director.slug}
+                href={`/board-of-directors/${director.slug}`}
+                className="group block w-[280px] sm:w-[320px] md:w-[340px] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
               >
-                <Image
-                  src={director.cardImage}
-                  alt={`${director.name} - ${director.role}`}
-                  width={594}
-                  height={817}
-                  className="w-full h-auto object-contain rounded-2xl"
-                  priority
-                />
-              </div>
+                <div className="relative w-full aspect-[594/817] bg-[#2C302B]">
+                  <Image
+                    src={director.cardImage}
+                    alt={`${director.name} - ${director.role}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 340px"
+                    className="object-cover rounded-2xl"
+                    priority
+                  />
+                </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -111,19 +96,22 @@ export default function BoardOfDirectorsPage() {
 
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 max-w-4xl mx-auto">
             {nonExecutiveDirectors.map((director) => (
-              <div
-                key={director.name}
-                className="w-[280px] sm:w-[320px] md:w-[340px] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+              <Link
+                key={director.slug}
+                href={`/board-of-directors/${director.slug}`}
+                className="group block w-[280px] sm:w-[320px] md:w-[340px] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
               >
-                <Image
-                  src={director.cardImage}
-                  alt={`${director.name} - ${director.role}`}
-                  width={680}
-                  height={1004}
-                  className="w-full h-auto object-contain rounded-2xl"
-                  priority
-                />
-              </div>
+                <div className="relative w-full aspect-[680/1004] bg-[#2C302B]">
+                  <Image
+                    src={director.cardImage}
+                    alt={`${director.name} - ${director.role}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 340px"
+                    className="object-cover rounded-2xl"
+                    priority
+                  />
+                </div>
+              </Link>
             ))}
           </div>
         </div>

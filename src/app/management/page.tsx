@@ -4,24 +4,12 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { managementMembers } from '@/lib/teamData';
 
 export default function ManagementPage() {
-  const managementCards = [
-    {
-      name: 'SIRAJ AHMED',
-      role: 'CHIEF EXECUTIVE OFFICER',
-      cardImage: '/images/figma/siraj-ahmed-card.png',
-    },
-    {
-      name: 'SAMITAN SHARMA',
-      role: 'CHIEF FINANCIAL OFFICER',
-      cardImage: '/images/figma/samitan-sharma-card.png',
-    },
-  ];
-
   return (
     <div className="w-full bg-white text-[#141C16]">
-      {/* 1. HERO SECTION (Exact 1:1 match to Figma) */}
+      {/* 1. HERO SECTION */}
       <section className="relative w-full min-h-[440px] md:min-h-[480px] flex items-center bg-black overflow-hidden pt-28 pb-16">
         <Image
           src="/images/figma/company-hero-bg.jpg"
@@ -57,7 +45,7 @@ export default function ManagementPage() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="text-[15px] md:text-base text-gray-200 font-light leading-relaxed max-w-xl"
             >
-              Impact Energies Limited has a strong management team and Board with a track record of success.
+              Impact Energies has a strong management team and Board with a track record of success.
             </motion.p>
           </div>
         </div>
@@ -74,23 +62,33 @@ export default function ManagementPage() {
           </h2>
         </div>
 
-        {/* 2 Figma Cards Centered Grid */}
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 max-w-4xl mx-auto">
-          {managementCards.map((member) => (
-            <div
-              key={member.name}
-              className="w-[280px] sm:w-[320px] md:w-[340px] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+        {/* 4 Cards Grid - Clickable linking to Bio Pages */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-8 max-w-6xl mx-auto">
+          {managementMembers.map((member) => (
+            <Link
+              key={member.slug}
+              href={`/management/${member.slug}`}
+              className="group block rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
             >
-              <Image
-                src={member.cardImage}
-                alt={`${member.name} - ${member.role}`}
-                width={594}
-                height={817}
-                className="w-full h-auto object-contain rounded-2xl"
-                priority
-              />
-            </div>
+              <div className="relative w-full aspect-[594/817] bg-[#2C302B]">
+                <Image
+                  src={member.cardImage}
+                  alt={`${member.name} - ${member.role}`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover rounded-2xl"
+                  priority
+                />
+              </div>
+            </Link>
           ))}
+        </div>
+
+        {/* Support Services Notice at Bottom */}
+        <div className="max-w-4xl mx-auto mt-20 pt-10 border-t border-gray-200/80 text-center">
+          <p className="text-[15px] md:text-base text-gray-600 leading-relaxed font-light">
+            Impact Energies is supported by the experienced team at Impact Oil &amp; Gas, which provides management and other services to the company under a management services agreement.
+          </p>
         </div>
       </section>
     </div>

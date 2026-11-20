@@ -45,7 +45,7 @@ export default function CookiesPolicyPage() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="text-[15px] md:text-base text-gray-200 font-light leading-relaxed max-w-xl"
             >
-              How Impact Energies Limited uses cookies and tracking technologies.
+              How Impact Energies uses cookies and tracking technologies.
             </motion.p>
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function CookiesPolicyPage() {
               <span>Cookies &amp; Tracking Technologies</span>
             </div>
             <p className="text-[16px] md:text-[17px] text-gray-900 font-medium leading-relaxed">
-              This Cookies Policy explains how Impact Energies Limited (“we”, “us”, or “our”) uses cookies and similar technologies when you visit our website. This policy should be read alongside our{' '}
+              This Cookies Policy explains how Impact Energies (“we”, “us”, or “our”) uses cookies and similar technologies when you visit our website. This policy should be read alongside our{' '}
               <Link href="/privacy-policy" className="text-[#007580] font-semibold hover:underline">
                 Privacy Policy
               </Link>{' '}
@@ -199,9 +199,9 @@ export default function CookiesPolicyPage() {
               or write to our registered office:
             </p>
             <p className="text-gray-600 pl-4 border-l-2 border-[#6AA335]">
-              Impact Energies Limited<br />
-              Griffin House, West Street,<br />
-              Woking, Surrey, GU21 6BS,<br />
+              Impact Energies<br />
+              27 Old Gloucester Street,<br />
+              London, WC1N 3AX,<br />
               United Kingdom
             </p>
           </div>
