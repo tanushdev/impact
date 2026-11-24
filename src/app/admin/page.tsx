@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
       if (data.success) {
         router.push('/admin/news');
       } else {
-        setError('Incorrect password. Please try again.');
+        setError(data.message || 'Incorrect password. Please try again.');
       }
     } catch {
       setError('Something went wrong. Please try again.');

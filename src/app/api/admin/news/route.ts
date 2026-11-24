@@ -3,6 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import News from '@/models/News';
 import { isAdminAuthenticated } from '@/lib/adminAuth';
 import { initialNews } from '@/lib/seedData';
+import { sanitizeHtml } from '@/lib/contentRenderer';
 
 export const dynamic = 'force-dynamic';
 
@@ -91,10 +92,10 @@ export async function POST(req: NextRequest) {
     date,
     year: year || parseInt(date.split('-')[0]) || new Date().getFullYear(),
     category,
-    summary,
+    summary: sanitizeHtml(summary),
     coverImage,
-    contentHtml,
-    bodyParagraphs: bodyParagraphs.length > 0 ? bodyParagraphs : [summary],
+    contentHtml: sanitizeHtml(contentHtml),
+    bodyParagraphs: (bodyParagraphs.length > 0 ? bodyParagraphs : [summary]).map((p: string) => sanitizeHtml(p)),
     images,
     bulletPoints,
     author,

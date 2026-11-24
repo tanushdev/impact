@@ -3,6 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import News from '@/models/News';
 import { isAdminAuthenticated } from '@/lib/adminAuth';
 import { initialNews } from '@/lib/seedData';
+import { sanitizeHtml } from '@/lib/contentRenderer';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,6 +45,15 @@ export async function PATCH(req: NextRequest, { params }: Context) {
   await connectToDatabase();
 
   const body = await req.json();
+  if (body.contentHtml) {
+    body.contentHtml = sanitizeHtml(body.contentHtml);
+  }
+  if (body.summary) {
+    body.summary = sanitizeHtml(body.summary);
+  }
+  if (Array.isArray(body.bodyParagraphs)) {
+    body.bodyParagraphs = body.bodyParagraphs.map((p: string) => sanitizeHtml(p));
+  }
   const isObjectId = /^[0-9a-fA-F]{24}$/.test(params.id);
 
   let article = null;
