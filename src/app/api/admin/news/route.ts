@@ -41,15 +41,20 @@ export async function POST(req: NextRequest) {
     year,
     category = 'Press Release',
     summary,
+    coverImage = '',
+    contentHtml = '',
     bodyParagraphs = [],
+    images = [],
     bulletPoints = [],
+    author = 'Impact Energies Corporate',
+    readTime = '3 min read',
     featured = false,
     order = 0,
   } = body;
 
   if (!title || !date || !summary) {
     return NextResponse.json(
-      { success: false, message: 'title, date and summary are required' },
+      { success: false, message: 'Title, date and summary are required' },
       { status: 400 }
     );
   }
@@ -62,12 +67,12 @@ export async function POST(req: NextRequest) {
   const existing = await News.findOne({ slug: finalSlug });
   if (existing) {
     return NextResponse.json(
-      { success: false, message: `Slug "${finalSlug}" already exists. Use a unique title or override slug.` },
+      { success: false, message: `Slug "${finalSlug}" already exists. Please choose a unique title or edit slug.` },
       { status: 400 }
     );
   }
 
-  const parsedYear = year || parseInt(date.split('-')[0]);
+  const parsedYear = year || parseInt(date.split('-')[0]) || new Date().getFullYear();
 
   const article = await News.create({
     slug: finalSlug,
@@ -76,8 +81,13 @@ export async function POST(req: NextRequest) {
     year: parsedYear,
     category,
     summary,
+    coverImage,
+    contentHtml,
     bodyParagraphs,
+    images,
     bulletPoints,
+    author,
+    readTime,
     featured,
     order,
   });

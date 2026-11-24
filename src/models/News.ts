@@ -1,5 +1,11 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
+export interface INewsImage {
+  url: string;
+  caption?: string;
+  alt?: string;
+}
+
 export interface INews extends Document {
   slug: string;
   title: string;
@@ -7,12 +13,17 @@ export interface INews extends Document {
   year: number;
   category: string;
   summary: string;
+  coverImage?: string;
+  contentHtml?: string;
   bodyParagraphs: string[];
-  images?: { url: string; caption?: string }[];
+  images?: INewsImage[];
   bulletPoints?: string[];
+  author?: string;
+  readTime?: string;
   featured?: boolean;
   order: number;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 const NewsSchema: Schema = new Schema(
@@ -26,14 +37,19 @@ const NewsSchema: Schema = new Schema(
       default: 'Press Release',
     },
     summary: { type: String, required: true },
+    coverImage: { type: String, default: '' },
+    contentHtml: { type: String, default: '' },
     bodyParagraphs: [{ type: String }],
     images: [
       {
         url: { type: String },
         caption: { type: String },
+        alt: { type: String },
       },
     ],
     bulletPoints: [{ type: String }],
+    author: { type: String, default: 'Impact Energies Corporate' },
+    readTime: { type: String, default: '3 min read' },
     featured: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
   },
@@ -46,4 +62,3 @@ const News: Model<INews> =
   mongoose.models.News || mongoose.model<INews>('News', NewsSchema);
 
 export default News;
-
