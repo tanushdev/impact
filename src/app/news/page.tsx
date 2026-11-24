@@ -1,22 +1,50 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronDown, Minus, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { initialNews } from '@/lib/seedData';
+
+interface NewsItem {
+  _id: string;
+  slug: string;
+  title: string;
+  date: string;
+  year: number;
+  category: string;
+  summary: string;
+  bodyParagraphs?: string[];
+  bulletPoints?: string[];
+  featured?: boolean;
+  order?: number;
+}
 
 export default function NewsPage() {
+  const [allNews, setAllNews] = useState<NewsItem[]>([]);
+  const [newsLoading, setNewsLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState<string>('All');
   const [yearDropdownOpen, setYearDropdownOpen] = useState(false);
   const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
 
+  useEffect(() => {
+    fetch('/api/news')
+      .then((r) => r.json())
+      .then((data) => {
+        setAllNews(data.news || []);
+        setNewsLoading(false);
+      })
+      .catch(() => setNewsLoading(false));
+  }, []);
+
+  // Available years from fetched data
+  const availableYears = Array.from(new Set(allNews.map((n) => n.year))).sort((a, b) => b - a);
+
   // Filter news by year if specified
   const filteredNews =
     selectedYear === 'All'
-      ? initialNews
-      : initialNews.filter((item) => item.year.toString() === selectedYear);
+      ? allNews
+      : allNews.filter((item) => item.year.toString() === selectedYear);
 
   // Divide dynamically into 2 columns
   const half = Math.ceil(filteredNews.length / 2);
@@ -105,7 +133,7 @@ export default function NewsPage() {
 
               {yearDropdownOpen && (
                 <div className="absolute right-0 top-full mt-2 w-36 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-30 animate-in fade-in duration-150">
-                  {['All', '2027', '2026'].map((yr) => (
+                  {['All', ...availableYears.map(String)].map((yr) => (
                     <button
                       key={yr}
                       onClick={() => {
@@ -139,7 +167,11 @@ export default function NewsPage() {
         <div className="w-full border-t border-gray-200/80 my-8 md:my-10" />
 
         {/* 2-Column Accordion List or Empty State */}
-        {filteredNews.length === 0 ? (
+        {newsLoading ? (
+          <div className="py-16 text-center text-gray-400 font-light text-base">
+            Loading latest news…
+          </div>
+        ) : filteredNews.length === 0 ? (
           <div className="py-12 text-center text-gray-500 font-light text-base max-w-xl mx-auto">
             There are currently no active public announcements or scheduled events. Please check back soon for our latest corporate releases and exploration updates.
           </div>
