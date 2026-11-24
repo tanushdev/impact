@@ -1,18 +1,47 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { notFound } from 'next/navigation';
+import { ArrowLeft, Calendar, Tag } from 'lucide-react';
+import { connectToDatabase } from '@/lib/mongodb';
+import News from '@/models/News';
 import { initialNews } from '@/lib/seedData';
 
 export const dynamic = 'force-dynamic';
 
 export default async function NewsDetailPage({ params }: { params: { id: string } }) {
-  const article =
-    initialNews.find((n) => n.slug === params.id) || initialNews[0];
+  let article: any = null;
+
+  try {
+    const conn = await connectToDatabase();
+    if (conn) {
+      article = await News.findOne({
+        $or: [{ slug: params.id }, { _id: params.id.match(/^[0-9a-fA-F]{24}$/) ? params.id : null }],
+      }).lean();
+    }
+  } catch (err) {
+    console.warn('MongoDB lookup error in news/[id]:', err);
+  }
+
+  if (!article) {
+    article = initialNews.find((n) => n.slug === params.id);
+  }
+
+  if (!article) {
+    notFound();
+  }
+
+  const paragraphs: string[] = article.bodyParagraphs && article.bodyParagraphs.length > 0
+    ? article.bodyParagraphs
+    : [article.summary];
+
+  const half = Math.ceil(paragraphs.length / 2);
+  const leftParagraphs = paragraphs.slice(0, half);
+  const rightParagraphs = paragraphs.slice(half);
 
   return (
-    <div className="w-full bg-white">
-      {/* 1. HERO */}
+    <div className="w-full bg-white text-[#141C16]">
+      {/* 1. HERO SECTION */}
       <section className="relative w-full min-h-[420px] md:min-h-[460px] flex items-center bg-black overflow-hidden pt-28 pb-14">
         <Image
           src="/images/news-hero.jpg"
@@ -36,12 +65,15 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
             <span className="text-[#10CFC9] font-medium">Article</span>
           </div>
 
-          <div className="max-w-2xl text-white">
-            <h1 className="text-4xl sm:text-5xl md:text-[52px] font-extralight tracking-tight leading-[1.1] mb-4 font-sans">
-              Press Release
+          <div className="max-w-3xl text-white">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-[#10CFC9]/20 text-[#10CFC9] text-xs font-semibold uppercase tracking-wider mb-3">
+              {article.category || 'Press Release'}
+            </span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extralight tracking-tight leading-[1.15] mb-4 font-sans">
+              {article.title}
             </h1>
-            <p className="text-[15px] md:text-base text-gray-200 font-light leading-relaxed max-w-xl">
-              Official press statement and regulatory announcement from Impact Energies.
+            <p className="text-[15px] md:text-base text-gray-200 font-light leading-relaxed max-w-2xl">
+              {article.summary}
             </p>
           </div>
         </div>
@@ -51,43 +83,41 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
       <div className="max-w-[1360px] mx-auto px-6 md:px-12 pt-8">
         <Link
           href="/news"
-          className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-gray-500 hover:text-[#007580] transition-colors"
+          className="inline-flex items-center gap-2 text-[15px] font-semibold text-gray-500 hover:text-[#70B83A] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Press Releases &amp; Media</span>
+          <span>Back to News &amp; Media</span>
         </Link>
       </div>
 
       {/* 2. ARTICLE HEADER & SUMMARY ROW */}
-      <section className="w-full bg-white pt-8 pb-12 px-6 md:px-12">
+      <section className="w-full bg-white pt-6 pb-16 px-6 md:px-12">
         <div className="max-w-[1360px] mx-auto">
-          <div className="pb-8 border-b border-gray-100">
+          <div className="pb-8 border-b border-gray-100 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#007580] uppercase tracking-tight leading-snug">
-                {article.title}
-              </h2>
-              <div className="mt-2 text-[14px] text-gray-400 font-medium">{article.date}</div>
+              <div className="flex items-center gap-4 text-[14px] text-gray-500">
+                <span className="flex items-center gap-1.5">
+                  <Calendar className="w-4 h-4 text-[#70B83A]" />
+                  <span>{article.date}</span>
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1.5 font-medium text-[#141C16]">
+                  <Tag className="w-4 h-4 text-[#10CFC9]" />
+                  <span>{article.category || 'Press Release'}</span>
+                </span>
+              </div>
             </div>
           </div>
 
           {/* 3. TWO-COLUMN ARTICLE BODY */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-10 text-[15px] text-gray-700 leading-relaxed">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-10 text-[15px] text-gray-700 leading-relaxed font-light">
             {/* Left Column */}
             <div className="lg:col-span-6 space-y-6">
-              <p>
-                Impact Energies (&quot;Impact&quot; or the &quot;Company&quot;) has announced a corporate
-                reorganisation to separate its Namibian exploration and development business from its
-                South African exploration portfolio, establishing distinct entities with clear strategic mandates.
-              </p>
+              {leftParagraphs.map((p, idx) => (
+                <p key={idx}>{p}</p>
+              ))}
 
-              <p>
-                The transaction will enable the Company to focus efforts on, and maximise value from, its
-                flagship Namibian portfolio in the period leading up to First Oil from the giant Venus discovery,
-                while facilitating dedicated investment into the South African frontier exploration acreage.
-              </p>
-
-              {/* Refinery pipes photo */}
-              <div className="relative rounded-xl overflow-hidden shadow-sm my-6 border border-gray-100">
+              <div className="relative rounded-2xl overflow-hidden shadow-sm my-6 border border-gray-100">
                 <Image
                   src="/images/refinery-pipes.jpg"
                   alt="Offshore Energy Infrastructure"
@@ -96,28 +126,11 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
                   className="w-full h-auto object-cover"
                 />
               </div>
-
-              <div className="space-y-4">
-                <h4 className="font-bold text-[#007580] text-[17px]">
-                  Offshore South Africa High-Impact Exploration Portfolio
-                </h4>
-                <p>
-                  Impact focuses on high-impact offshore exploration acreage across South Africa,
-                  including Orange Basin Deep (Exploration Right 12/3/135), Transkei &amp; Algoa
-                  (Exploration Right 12/3/252), and Area 2 (Exploration Right 12/3/276).
-                </p>
-                <p>
-                  Together with world-class partners including TotalEnergies, QatarEnergy, and Shell,
-                  Impact continues comprehensive geoscience and technical programmes across deep-water
-                  frontier basins unlocking significant exploration potential.
-                </p>
-              </div>
             </div>
 
             {/* Right Column */}
             <div className="lg:col-span-6 space-y-6">
-              {/* Plant foliage photo */}
-              <div className="relative rounded-xl overflow-hidden shadow-sm border border-gray-100">
+              <div className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 mb-6">
                 <Image
                   src="/images/plant-foliage.jpg"
                   alt="Impact Environmental and Operational Standards"
@@ -127,31 +140,23 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
                 />
               </div>
 
-              <div className="space-y-4">
-                <h4 className="font-bold text-[#007580] text-[17px]">Details of the Portfolio Structure:</h4>
-                <p>
-                  Under the terms of the structure, participating interests in the following licenses
-                  represent high-impact exploration value:
-                </p>
-                <ul className="list-disc pl-5 space-y-2 text-gray-600">
-                  {article.bulletPoints?.map((bp: string, i: number) => (
-                    <li key={i}>{bp}</li>
-                  ))}
-                </ul>
-              </div>
+              {rightParagraphs.map((p, idx) => (
+                <p key={idx}>{p}</p>
+              ))}
 
-              <div className="space-y-4 pt-4 border-t border-gray-100">
-                <h4 className="font-bold text-[#007580] text-[17px]">Strategic Rationale:</h4>
-                <p>
-                  The reorganisation is designed to deliver a cleaner and more focused corporate
-                  structure intended to:
-                </p>
-                <ul className="list-disc pl-5 space-y-2 text-gray-600">
-                  <li>Facilitate investment into the South African Assets from specialized energy investors;</li>
-                  <li>Enable targeted concentration on unlocking value from the deepwater Orange Basin discoveries;</li>
-                  <li>Maintain strict governance and ESG standards with identical management expertise.</li>
-                </ul>
-              </div>
+              {article.bulletPoints && article.bulletPoints.length > 0 && (
+                <div className="space-y-4 pt-6 border-t border-gray-100">
+                  <h4 className="font-bold text-[#141C16] text-[17px]">Key Highlights &amp; Milestones:</h4>
+                  <ul className="space-y-2.5">
+                    {article.bulletPoints.map((bp: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2.5 text-gray-700">
+                        <span className="w-2 h-2 rounded-full bg-[#10CFC9] mt-2 shrink-0" />
+                        <span>{bp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>

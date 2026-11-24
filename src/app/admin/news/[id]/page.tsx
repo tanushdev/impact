@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Plus, Trash2, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, Save, Loader2, Calendar, Tag, Hash, Star } from 'lucide-react';
 
 const CATEGORIES = ['Press Release', 'News', 'Announcement', 'Report'];
 
@@ -148,65 +148,86 @@ export default function ArticleFormPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0E1512] flex items-center justify-center">
-        <Loader2 className="animate-spin text-[#70B83A]" size={32} />
+      <div className="min-h-screen bg-[#0A0F0C] flex flex-col items-center justify-center gap-3">
+        <Loader2 className="animate-spin text-[#70B83A]" size={30} />
+        <p className="text-sm text-gray-500 font-light">Loading article details…</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0E1512] text-white">
+    <div className="min-h-screen bg-[#0A0F0C] text-white flex flex-col">
+      {/* Top accent line */}
+      <div className="h-[3px] w-full bg-gradient-to-r from-[#10CFC9] via-[#70B83A] to-[#10CFC9] shrink-0" />
+
       {/* Header */}
-      <header className="bg-[#141C16] border-b border-white/10 px-6 py-4 flex items-center justify-between sticky top-0 z-10">
+      <header className="sticky top-0 z-10 bg-[#0A0F0C]/95 backdrop-blur border-b border-white/[0.06] px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/admin/news" className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition">
+          <Link
+            href="/admin/news"
+            className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-gray-400 hover:text-white transition"
+          >
             <ArrowLeft size={16} />
           </Link>
           <div>
-            <h1 className="text-lg font-bold">{isNew ? 'New Article' : 'Edit Article'}</h1>
-            <p className="text-xs text-gray-400">News &amp; Media CMS</p>
+            <h1 className="text-lg font-bold text-white tracking-tight">
+              {isNew ? 'Create New Article' : 'Edit Article'}
+            </h1>
+            <p className="text-xs text-gray-500">News &amp; Media CMS</p>
           </div>
         </div>
+
         <button
           form="article-form"
           type="submit"
           disabled={saving}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#70B83A] hover:bg-[#5ea32a] rounded-xl text-sm font-semibold transition disabled:opacity-60"
+          className="flex items-center gap-2 px-5 py-2.5 bg-[#70B83A] hover:bg-[#5ea32a] active:bg-[#4f8f24] rounded-xl text-sm font-semibold transition disabled:opacity-60 shadow-lg shadow-[#70B83A]/20"
         >
           {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
           {saving ? 'Saving…' : 'Save Article'}
         </button>
       </header>
 
-      <form id="article-form" onSubmit={handleSave} className="max-w-4xl mx-auto px-6 py-8 space-y-8">
+      {/* Form Container */}
+      <form id="article-form" onSubmit={handleSave} className="max-w-4xl mx-auto w-full px-6 py-8 space-y-7">
         {error && (
-          <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-300 text-sm">
-            {error}
+          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm flex items-center gap-2">
+            <span>⚠</span>
+            <span>{error}</span>
           </div>
         )}
 
-        {/* Core fields */}
-        <div className="bg-[#141C16] border border-white/8 rounded-2xl p-6 space-y-5">
-          <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">Article Details</h2>
+        {/* 1. Core Fields */}
+        <div className="bg-[#111A13] border border-white/[0.06] rounded-2xl p-6 md:p-8 space-y-6">
+          <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              Article Meta &amp; Placement
+            </h2>
+            <span className="text-xs text-gray-600 font-mono">Impact Energies CMS</span>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Title */}
             <div className="md:col-span-2">
-              <label className="text-xs text-gray-400 block mb-1.5">Title <span className="text-red-400">*</span></label>
+              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">
+                Headline / Title <span className="text-red-400">*</span>
+              </label>
               <input
                 type="text"
                 value={form.title}
                 onChange={(e) => handleTitleChange(e.target.value)}
-                placeholder="e.g. Impact Energies Announces New Discovery"
+                placeholder="e.g. Impact Energies Completes Strategic Exploration Assessment"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-[#0E1512] border border-white/10 text-white placeholder-gray-600 text-[15px] focus:outline-none focus:border-[#70B83A] transition"
+                className="w-full px-4 py-3 rounded-xl bg-[#0A0F0C] border border-white/10 text-white placeholder-gray-600 text-[15px] focus:outline-none focus:border-[#10CFC9] focus:ring-1 focus:ring-[#10CFC9]/20 transition"
               />
             </div>
 
             {/* Slug */}
             <div className="md:col-span-2">
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs text-gray-400">URL Slug</label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  URL Slug
+                </label>
                 <label className="flex items-center gap-1.5 text-xs text-gray-500 cursor-pointer">
                   <input
                     type="checkbox"
@@ -217,57 +238,69 @@ export default function ArticleFormPage() {
                   Auto-generate from title
                 </label>
               </div>
-              <div className="flex items-center bg-[#0E1512] border border-white/10 rounded-xl overflow-hidden focus-within:border-[#70B83A] transition">
-                <span className="text-gray-600 text-sm px-3 border-r border-white/10 py-3">/news/</span>
+              <div className="flex items-center bg-[#0A0F0C] border border-white/10 rounded-xl overflow-hidden focus-within:border-[#10CFC9] focus-within:ring-1 focus-within:ring-[#10CFC9]/20 transition">
+                <span className="text-gray-600 text-xs px-3.5 border-r border-white/10 py-3 font-mono">
+                  /news/
+                </span>
                 <input
                   type="text"
                   value={form.slug}
                   onChange={(e) => set('slug', e.target.value)}
-                  placeholder="article-url-slug"
-                  className="flex-1 px-3 py-3 bg-transparent text-white text-[15px] font-mono focus:outline-none"
+                  placeholder="article-slug"
+                  className="flex-1 px-3 py-3 bg-transparent text-white text-[15px] font-mono focus:outline-none placeholder-gray-700"
                 />
               </div>
             </div>
 
             {/* Date */}
             <div>
-              <label className="text-xs text-gray-400 block mb-1.5">Date <span className="text-red-400">*</span></label>
-              <input
-                type="date"
-                value={form.date}
-                onChange={(e) => {
-                  set('date', e.target.value);
-                  set('year', String(new Date(e.target.value).getFullYear()));
-                }}
-                required
-                className="w-full px-4 py-3 rounded-xl bg-[#0E1512] border border-white/10 text-white text-[15px] focus:outline-none focus:border-[#70B83A] transition"
-              />
+              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">
+                Publication Date <span className="text-red-400">*</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="date"
+                  value={form.date}
+                  onChange={(e) => {
+                    set('date', e.target.value);
+                    set('year', String(new Date(e.target.value).getFullYear()));
+                  }}
+                  required
+                  className="w-full px-4 py-3 rounded-xl bg-[#0A0F0C] border border-white/10 text-white text-[15px] focus:outline-none focus:border-[#10CFC9] focus:ring-1 focus:ring-[#10CFC9]/20 transition"
+                />
+              </div>
             </div>
 
             {/* Category */}
             <div>
-              <label className="text-xs text-gray-400 block mb-1.5">Category</label>
+              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">
+                Category
+              </label>
               <select
                 value={form.category}
                 onChange={(e) => set('category', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-[#0E1512] border border-white/10 text-white text-[15px] focus:outline-none focus:border-[#70B83A] transition"
+                className="w-full px-4 py-3 rounded-xl bg-[#0A0F0C] border border-white/10 text-white text-[15px] focus:outline-none focus:border-[#10CFC9] focus:ring-1 focus:ring-[#10CFC9]/20 transition"
               >
                 {CATEGORIES.map((c) => (
-                  <option key={c} value={c}>{c}</option>
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
                 ))}
               </select>
             </div>
 
             {/* Order */}
             <div>
-              <label className="text-xs text-gray-400 block mb-1.5">Display Order</label>
+              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">
+                Display Order
+              </label>
               <input
                 type="number"
                 value={form.order}
                 onChange={(e) => set('order', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-[#0E1512] border border-white/10 text-white text-[15px] focus:outline-none focus:border-[#70B83A] transition"
+                className="w-full px-4 py-3 rounded-xl bg-[#0A0F0C] border border-white/10 text-white text-[15px] focus:outline-none focus:border-[#10CFC9] focus:ring-1 focus:ring-[#10CFC9]/20 transition"
               />
-              <p className="text-xs text-gray-600 mt-1">Lower number = shown first</p>
+              <p className="text-xs text-gray-600 mt-1">Lower order number appears first in the listing.</p>
             </div>
 
             {/* Featured */}
@@ -279,119 +312,139 @@ export default function ArticleFormPage() {
                   onChange={(e) => set('featured', e.target.checked)}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#70B83A]"></div>
+                <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#70B83A]" />
               </label>
               <div>
-                <p className="text-sm text-white font-medium">Featured Article</p>
-                <p className="text-xs text-gray-500">Shown prominently on the News page</p>
+                <p className="text-sm text-white font-medium">Featured Release</p>
+                <p className="text-xs text-gray-500">Pinned at the top with highlight styling</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Summary */}
-        <div className="bg-[#141C16] border border-white/8 rounded-2xl p-6">
-          <label className="text-xs text-gray-400 block mb-1.5 uppercase tracking-wider font-semibold">
-            Summary <span className="text-red-400">*</span>
+        {/* 2. Summary */}
+        <div className="bg-[#111A13] border border-white/[0.06] rounded-2xl p-6 md:p-8 space-y-4">
+          <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider block">
+            Executive Summary <span className="text-red-400">*</span>
           </label>
           <textarea
             value={form.summary}
             onChange={(e) => set('summary', e.target.value)}
-            placeholder="A short summary shown in the news listing and article header…"
+            placeholder="A clear 2-3 sentence overview that appears in cards and media listings…"
             required
             rows={3}
-            className="w-full px-4 py-3 rounded-xl bg-[#0E1512] border border-white/10 text-white placeholder-gray-600 text-[15px] leading-relaxed focus:outline-none focus:border-[#70B83A] transition resize-none"
+            className="w-full px-4 py-3 rounded-xl bg-[#0A0F0C] border border-white/10 text-white placeholder-gray-600 text-[15px] leading-relaxed focus:outline-none focus:border-[#10CFC9] focus:ring-1 focus:ring-[#10CFC9]/20 transition resize-none"
           />
         </div>
 
-        {/* Body Paragraphs */}
-        <div className="bg-[#141C16] border border-white/8 rounded-2xl p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Body Paragraphs</h2>
+        {/* 3. Body Paragraphs */}
+        <div className="bg-[#111A13] border border-white/[0.06] rounded-2xl p-6 md:p-8 space-y-5">
+          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+            <div>
+              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Full Article Content
+              </h2>
+              <p className="text-xs text-gray-600 mt-0.5">Add narrative paragraphs in reading order</p>
+            </div>
             <button
               type="button"
               onClick={addParagraph}
-              className="flex items-center gap-1.5 text-xs text-[#70B83A] hover:text-white transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#70B83A]/10 hover:bg-[#70B83A]/20 text-xs text-[#70B83A] font-semibold transition"
             >
               <Plus size={12} /> Add Paragraph
             </button>
           </div>
-          {form.bodyParagraphs.map((para, idx) => (
-            <div key={idx} className="flex gap-3 items-start">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs text-gray-600">¶ {idx + 1}</span>
+
+          <div className="space-y-4">
+            {form.bodyParagraphs.map((para, idx) => (
+              <div key={idx} className="flex gap-3 items-start">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="text-xs text-gray-500 font-mono">Paragraph {idx + 1}</span>
+                  </div>
+                  <textarea
+                    value={para}
+                    onChange={(e) => handleBodyChange(idx, e.target.value)}
+                    placeholder={`Paragraph ${idx + 1} content…`}
+                    rows={3}
+                    className="w-full px-4 py-3 rounded-xl bg-[#0A0F0C] border border-white/10 text-white placeholder-gray-600 text-[15px] leading-relaxed focus:outline-none focus:border-[#10CFC9] focus:ring-1 focus:ring-[#10CFC9]/20 transition resize-none"
+                  />
                 </div>
-                <textarea
-                  value={para}
-                  onChange={(e) => handleBodyChange(idx, e.target.value)}
-                  placeholder={`Paragraph ${idx + 1}…`}
-                  rows={3}
-                  className="w-full px-4 py-3 rounded-xl bg-[#0E1512] border border-white/10 text-white placeholder-gray-600 text-[15px] leading-relaxed focus:outline-none focus:border-[#70B83A] transition resize-none"
-                />
+                {form.bodyParagraphs.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeParagraph(idx)}
+                    className="mt-8 p-2 rounded-lg bg-white/[0.04] hover:bg-red-500/10 hover:text-red-400 text-gray-500 transition"
+                    title="Remove paragraph"
+                  >
+                    <Trash2 size={13} />
+                  </button>
+                )}
               </div>
-              {form.bodyParagraphs.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeParagraph(idx)}
-                  className="mt-7 p-2 rounded-lg bg-white/5 hover:bg-red-500/20 hover:text-red-400 transition"
-                >
-                  <Trash2 size={13} />
-                </button>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* Bullet Points */}
-        <div className="bg-[#141C16] border border-white/8 rounded-2xl p-6 space-y-4">
-          <div className="flex items-center justify-between">
+        {/* 4. Bullet Points / Highlights */}
+        <div className="bg-[#111A13] border border-white/[0.06] rounded-2xl p-6 md:p-8 space-y-5">
+          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
             <div>
-              <h2 className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Bullet Points</h2>
-              <p className="text-xs text-gray-600 mt-0.5">Optional key facts or highlights</p>
+              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Key Points &amp; Highlights (Optional)
+              </h2>
+              <p className="text-xs text-gray-600 mt-0.5">Quick takeaways displayed as bullets</p>
             </div>
             <button
               type="button"
               onClick={addBullet}
-              className="flex items-center gap-1.5 text-xs text-[#70B83A] hover:text-white transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#70B83A]/10 hover:bg-[#70B83A]/20 text-xs text-[#70B83A] font-semibold transition"
             >
               <Plus size={12} /> Add Point
             </button>
           </div>
+
           {form.bulletPoints.length === 0 ? (
-            <p className="text-gray-600 text-sm italic">No bullet points added yet.</p>
+            <p className="text-gray-600 text-sm font-light italic py-2">
+              No bullet highlights added yet.
+            </p>
           ) : (
-            form.bulletPoints.map((bullet, idx) => (
-              <div key={idx} className="flex gap-3 items-center">
-                <span className="text-[#70B83A] text-lg leading-none shrink-0">•</span>
-                <input
-                  type="text"
-                  value={bullet}
-                  onChange={(e) => handleBulletChange(idx, e.target.value)}
-                  placeholder={`Bullet point ${idx + 1}`}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-[#0E1512] border border-white/10 text-white placeholder-gray-600 text-[15px] focus:outline-none focus:border-[#70B83A] transition"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeBullet(idx)}
-                  className="p-2 rounded-lg bg-white/5 hover:bg-red-500/20 hover:text-red-400 transition"
-                >
-                  <Trash2 size={13} />
-                </button>
-              </div>
-            ))
+            <div className="space-y-3">
+              {form.bulletPoints.map((bullet, idx) => (
+                <div key={idx} className="flex gap-3 items-center">
+                  <span className="text-[#10CFC9] text-base leading-none shrink-0">•</span>
+                  <input
+                    type="text"
+                    value={bullet}
+                    onChange={(e) => handleBulletChange(idx, e.target.value)}
+                    placeholder={`Key takeaway ${idx + 1}`}
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-[#0A0F0C] border border-white/10 text-white placeholder-gray-600 text-[15px] focus:outline-none focus:border-[#10CFC9] focus:ring-1 focus:ring-[#10CFC9]/20 transition"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeBullet(idx)}
+                    className="p-2 rounded-lg bg-white/[0.04] hover:bg-red-500/10 hover:text-red-400 text-gray-500 transition"
+                    title="Remove point"
+                  >
+                    <Trash2 size={13} />
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
-        {/* Bottom save */}
-        <div className="flex justify-end gap-3 pb-4">
-          <Link href="/admin/news" className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-sm transition">
+        {/* Bottom Save & Cancel */}
+        <div className="flex items-center justify-end gap-3 pt-2 pb-8">
+          <Link
+            href="/admin/news"
+            className="px-5 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-sm text-gray-300 transition"
+          >
             Cancel
           </Link>
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 bg-[#70B83A] hover:bg-[#5ea32a] rounded-xl text-sm font-semibold transition disabled:opacity-60"
+            className="flex items-center gap-2 px-6 py-2.5 bg-[#70B83A] hover:bg-[#5ea32a] active:bg-[#4f8f24] rounded-xl text-sm font-semibold transition disabled:opacity-60 shadow-lg shadow-[#70B83A]/20"
           >
             {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
             {saving ? 'Saving…' : 'Save Article'}
