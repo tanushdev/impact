@@ -63,7 +63,7 @@ export const managementMembers: TeamMember[] = [
     name: 'BJØRN THORE RIBESÉN',
     role: 'OPERATIONS',
     cardImage: '/images/figma/bjorn-ribesen-card.png',
-    photoImage: '/images/figma/bjorn-ribesen-card.png',
+    photoImage: '/images/team/bjorn-portrait.png',
     category: 'management',
     bioParagraphs: [
       'Bjørn Thore Ribesén oversees Operations at Impact Energies, bringing extensive international technical and operational expertise in offshore drilling campaigns, deepwater project execution, and subsurface risk management.',
@@ -82,7 +82,7 @@ export const managementMembers: TeamMember[] = [
     name: 'AYESHA KHOKHAR',
     role: 'LEGAL & COMPANY SECRETARY',
     cardImage: '/images/figma/ayesha-khokhar-card.png',
-    photoImage: '/images/figma/ayesha-khokhar-card.png',
+    photoImage: '/images/team/ayesha-portrait.png',
     category: 'management',
     bioParagraphs: [
       'Ayesha Khokhar heads Legal and serves as Company Secretary at Impact Energies. She is responsible for group corporate governance, statutory compliance, legal structuring, joint-venture operating agreements, and regulatory engagements across the company’s exploration licences.',

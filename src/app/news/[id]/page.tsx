@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, Tag, Clock, User, Share2 } from 'lucide-react';
 import { connectToDatabase } from '@/lib/mongodb';
 import News from '@/models/News';
 import { initialNews } from '@/lib/seedData';
+import { renderRichContent } from '@/lib/contentRenderer';
 
 export const dynamic = 'force-dynamic';
 
@@ -142,7 +143,7 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
                 prose-li:text-gray-700
                 prose-a:text-[#007580] prose-a:underline hover:prose-a:text-[#70B83A]
                 prose-img:rounded-2xl prose-img:shadow-sm prose-img:my-8"
-              dangerouslySetInnerHTML={{ __html: article.contentHtml }}
+              dangerouslySetInnerHTML={{ __html: renderRichContent(article.contentHtml) }}
             />
           ) : (
             /* Fallback Paragraphs layout */
