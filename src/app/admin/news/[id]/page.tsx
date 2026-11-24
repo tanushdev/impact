@@ -28,6 +28,8 @@ import {
   User,
   Tag,
   ExternalLink,
+  Columns,
+  Maximize2,
 } from 'lucide-react';
 import { renderRichContent } from '@/lib/contentRenderer';
 
@@ -109,6 +111,7 @@ export default function ArticleFormPage() {
   const [error, setError] = useState('');
   const [autoSlug, setAutoSlug] = useState(isNew);
   const [activeTab, setActiveTab] = useState<'editor' | 'preview'>('editor');
+  const [contentViewMode, setContentViewMode] = useState<'split' | 'write' | 'preview'>('split');
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
 
@@ -853,28 +856,111 @@ export default function ArticleFormPage() {
                 rows={3}
                 className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-[#141C16] placeholder-gray-400 text-[15px] leading-relaxed focus:outline-none focus:border-[#70B83A] focus:ring-2 focus:ring-[#70B83A]/15 transition resize-none font-medium"
               />
+
+              {/* Live Newsfeed Teaser Card Preview */}
+              <div className="pt-3 border-t border-gray-100">
+                <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#10CFC9]" />
+                  Live Newsfeed Card Preview
+                </p>
+                <div className="p-4 rounded-xl bg-[#F8FAF8] border border-gray-200 flex flex-col sm:flex-row gap-4 items-start">
+                  <div className="w-full sm:w-44 aspect-[16/10] rounded-lg overflow-hidden bg-gray-200 shrink-0">
+                    <img
+                      src={form.coverImage || '/images/news-hero.jpg'}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#EBF7F7] text-[#007580] border border-[#BBE3E4]">
+                        {form.category}
+                      </span>
+                      <span className="text-xs text-gray-400">{form.date}</span>
+                    </div>
+                    <h4 className="text-[15px] font-bold text-[#141C16] leading-snug">
+                      {form.title || 'Headline will appear here…'}
+                    </h4>
+                    <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                      {form.summary || 'Summary description will appear here…'}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* 4. Rich Formatted Article Content & Editor */}
+            {/* 4. Rich Formatted Article Content & Editor with Real-Time Live Preview */}
             <div className="bg-white border border-gray-200/90 rounded-2xl p-6 md:p-8 shadow-xs space-y-4">
-              <div className="border-b border-gray-100 pb-3 flex items-center justify-between flex-wrap gap-2">
+              <div className="border-b border-gray-100 pb-3 flex items-center justify-between flex-wrap gap-3">
                 <div>
-                  <h2 className="text-sm font-bold text-[#141C16] uppercase tracking-wider">
-                    4. Rich Article Content (Full Story)
-                  </h2>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-sm font-bold text-[#141C16] uppercase tracking-wider">
+                      4. Rich Article Content (Full Story)
+                    </h2>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#F0FDF4] text-[#2E7D32] border border-[#DCFCE7] text-[11px] font-bold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#70B83A] animate-pulse" />
+                      Live Preview Active
+                    </span>
+                  </div>
                   <p className="text-xs text-gray-400 font-light mt-0.5">
                     Format headings, bold, italic, brand colors, blockquotes, and embedded photos
                   </p>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('preview')}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#70B83A] bg-[#F0FDF4] text-[#2E7D32] text-xs font-bold hover:bg-[#DCFCE7] transition cursor-pointer"
-                >
-                  <Eye size={13} />
-                  <span>View Full Article Live Preview</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  {/* Mode switch: Split / Code / Live Preview */}
+                  <div className="inline-flex rounded-xl bg-gray-100 p-1 border border-gray-200">
+                    <button
+                      type="button"
+                      onClick={() => setContentViewMode('split')}
+                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                        contentViewMode === 'split'
+                          ? 'bg-white text-[#141C16] shadow-xs'
+                          : 'text-gray-500 hover:text-[#141C16]'
+                      }`}
+                      title="Side-by-side Editor & Live Preview"
+                    >
+                      <Columns size={12} />
+                      <span>Split View</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setContentViewMode('write')}
+                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                        contentViewMode === 'write'
+                          ? 'bg-white text-[#141C16] shadow-xs'
+                          : 'text-gray-500 hover:text-[#141C16]'
+                      }`}
+                      title="Code Editor Only"
+                    >
+                      <Edit3 size={12} />
+                      <span>Write</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setContentViewMode('preview')}
+                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                        contentViewMode === 'preview'
+                          ? 'bg-white text-[#70B83A] shadow-xs'
+                          : 'text-gray-500 hover:text-[#141C16]'
+                      }`}
+                      title="Rendered Output Only"
+                    >
+                      <Eye size={12} />
+                      <span>Preview</span>
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('preview')}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#70B83A] bg-[#F0FDF4] text-[#2E7D32] text-xs font-bold hover:bg-[#DCFCE7] transition cursor-pointer shadow-xs"
+                    title="View Full Public Article Page Preview"
+                  >
+                    <Maximize2 size={13} />
+                    <span className="hidden sm:inline">Full Page Preview</span>
+                  </button>
+                </div>
               </div>
 
               {/* Rich Formatting Toolbar */}
@@ -884,7 +970,7 @@ export default function ArticleFormPage() {
                   type="button"
                   onClick={() => insertFormatting('<strong>', '</strong>', 'bold text')}
                   className="p-2 rounded-lg hover:bg-white hover:shadow-xs text-gray-700 transition"
-                  title="Bold"
+                  title="Bold (**text** or <strong>)"
                 >
                   <Bold size={15} />
                 </button>
@@ -894,7 +980,7 @@ export default function ArticleFormPage() {
                   type="button"
                   onClick={() => insertFormatting('<em>', '</em>', 'italic text')}
                   className="p-2 rounded-lg hover:bg-white hover:shadow-xs text-gray-700 transition"
-                  title="Italic"
+                  title="Italic (*text* or <em>)"
                 >
                   <Italic size={15} />
                 </button>
@@ -1024,19 +1110,79 @@ export default function ArticleFormPage() {
                 </button>
               </div>
 
-              {/* Textarea */}
-              <div>
-                <textarea
-                  ref={editorTextareaRef}
-                  value={form.contentHtml}
-                  onChange={(e) => set('contentHtml', e.target.value)}
-                  placeholder={`Impact Energies ("Impact" or the "Company") today announced...\n\n<h2 class="text-2xl font-bold text-[#141C16] mt-8 mb-4">Strategic Exploration Rationale</h2>\n\nThrough advanced 3D seismic interpretation and partner alignment...`}
-                  rows={14}
-                  className="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 text-[#141C16] placeholder-gray-400 text-[15px] font-mono leading-relaxed focus:outline-none focus:border-[#70B83A] focus:ring-2 focus:ring-[#70B83A]/15 transition resize-y"
-                />
-                <p className="text-xs text-gray-400 font-light mt-1.5">
-                  Type your content here or use toolbar buttons. Click <strong className="text-[#70B83A]">Live Preview</strong> at the top to see the exact article design.
-                </p>
+              {/* Editor & Live Preview Grid */}
+              <div
+                className={`gap-5 ${
+                  contentViewMode === 'split'
+                    ? 'grid grid-cols-1 lg:grid-cols-2'
+                    : 'grid grid-cols-1'
+                }`}
+              >
+                {/* Editor Column (visible in 'split' or 'write') */}
+                {(contentViewMode === 'split' || contentViewMode === 'write') && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs text-gray-500 px-1">
+                      <span className="font-semibold text-gray-700">Content Input (Markdown or HTML)</span>
+                      <span className="font-mono text-[11px] text-gray-400">
+                        {form.contentHtml.length} chars
+                      </span>
+                    </div>
+                    <textarea
+                      ref={editorTextareaRef}
+                      value={form.contentHtml}
+                      onChange={(e) => set('contentHtml', e.target.value)}
+                      placeholder={`Impact Energies ("Impact" or the "Company") today announced...\n\n<h2 class="text-2xl font-bold text-[#141C16] mt-8 mb-4">Strategic Exploration Rationale</h2>\n\nThrough advanced 3D seismic interpretation and partner alignment...`}
+                      rows={contentViewMode === 'split' ? 18 : 14}
+                      className="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 text-[#141C16] placeholder-gray-400 text-[14px] font-mono leading-relaxed focus:outline-none focus:border-[#70B83A] focus:ring-2 focus:ring-[#70B83A]/15 transition resize-y"
+                    />
+                    <p className="text-xs text-gray-400 font-light">
+                      Supports markdown shortcuts like **bold** and *italic* as well as custom HTML tags. Live preview updates instantly.
+                    </p>
+                  </div>
+                )}
+
+                {/* Live Real-Time Rendered Output (visible in 'split' or 'preview') */}
+                {(contentViewMode === 'split' || contentViewMode === 'preview') && (
+                  <div className="flex flex-col rounded-xl border border-[#70B83A]/50 bg-[#FCFDFC] overflow-hidden shadow-xs">
+                    <div className="bg-[#F0FDF4] px-4 py-2.5 border-b border-[#DCFCE7] flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2 text-[#2E7D32] font-bold">
+                        <span className="w-2 h-2 rounded-full bg-[#70B83A] animate-pulse" />
+                        <span>Live Formatted Preview</span>
+                      </div>
+                      <span className="text-[11px] text-gray-500 font-light">
+                        Real-time styling &amp; output
+                      </span>
+                    </div>
+
+                    <div className="p-6 flex-1 overflow-y-auto max-h-[520px] bg-white">
+                      {form.contentHtml.trim() ? (
+                        <div
+                          className="prose prose-sm md:prose-base max-w-none text-gray-800 leading-relaxed font-light
+                            prose-headings:font-bold prose-headings:text-[#141C16] prose-headings:tracking-tight
+                            prose-h2:text-xl md:prose-h2:2xl prose-h2:mt-6 prose-h2:mb-3
+                            prose-h3:text-lg md:prose-h3:xl prose-h3:mt-5 prose-h3:mb-2
+                            prose-p:my-3
+                            prose-strong:font-bold prose-strong:text-[#141C16]
+                            prose-em:italic
+                            prose-blockquote:border-l-4 prose-blockquote:border-[#70B83A] prose-blockquote:pl-4 prose-blockquote:py-1.5 prose-blockquote:my-4 prose-blockquote:italic prose-blockquote:bg-[#F0FDF4]/50 prose-blockquote:rounded-r-xl
+                            prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-1.5 prose-ul:my-4
+                            prose-ol:list-decimal prose-ol:pl-6 prose-ol:space-y-1.5 prose-ol:my-4
+                            prose-li:text-gray-700
+                            prose-a:text-[#007580] prose-a:underline hover:prose-a:text-[#70B83A]
+                            prose-img:rounded-xl prose-img:shadow-sm prose-img:my-4"
+                          dangerouslySetInnerHTML={{
+                            __html: renderRichContent(form.contentHtml),
+                          }}
+                        />
+                      ) : (
+                        <div className="py-16 text-center text-gray-400 italic text-sm">
+                          <Eye size={24} className="mx-auto mb-2 text-gray-300" />
+                          <p>Start typing or formatting on the left to see your live preview here.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

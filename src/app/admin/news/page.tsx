@@ -19,7 +19,13 @@ import {
   Megaphone,
   BookOpen,
   ExternalLink,
+  Eye,
+  X,
+  Calendar,
+  Clock,
+  User,
 } from 'lucide-react';
+import { renderRichContent } from '@/lib/contentRenderer';
 
 interface NewsItem {
   _id: string;
@@ -45,6 +51,7 @@ export default function AdminNewsDashboard() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [previewArticle, setPreviewArticle] = useState<any | null>(null);
   const router = useRouter();
 
   const fetchNews = useCallback(async () => {
@@ -344,6 +351,13 @@ export default function AdminNewsDashboard() {
                         {/* Actions */}
                         <td className="px-6 py-4 text-right">
                           <div className="inline-flex items-center gap-2">
+                            <button
+                              onClick={() => setPreviewArticle(item)}
+                              className="p-2 rounded-xl bg-gray-50 hover:bg-[#EBF7F7] text-gray-600 hover:text-[#007580] border border-gray-200 transition-colors cursor-pointer"
+                              title="Live preview article"
+                            >
+                              <Eye size={14} />
+                            </button>
                             <Link
                               href={`/admin/news/${item._id}`}
                               className="p-2 rounded-xl bg-gray-50 hover:bg-[#F0FDF4] text-gray-600 hover:text-[#70B83A] border border-gray-200 transition-colors"
@@ -370,6 +384,144 @@ export default function AdminNewsDashboard() {
           )}
         </div>
       </main>
+
+      {/* Quick Preview Modal Dialog */}
+      {previewArticle && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 md:p-6 overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-[#F8FAF8] border-b border-gray-200 px-6 py-4 flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#70B83A] animate-pulse" />
+                <span className="text-xs font-bold uppercase tracking-wider text-[#2E7D32]">
+                  Live Article Preview
+                </span>
+                <span className="text-xs text-gray-400 font-mono hidden sm:inline">
+                  /news/{previewArticle.slug}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Link
+                  href={`/news/${previewArticle.slug}`}
+                  target="_blank"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 text-xs font-bold hover:bg-gray-50 transition"
+                >
+                  <ExternalLink size={12} />
+                  <span>Public Link</span>
+                </Link>
+                <Link
+                  href={`/admin/news/${previewArticle._id}`}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#70B83A] text-white text-xs font-bold hover:bg-[#5E942D] transition shadow-xs"
+                >
+                  <Pencil size={12} />
+                  <span>Edit</span>
+                </Link>
+                <button
+                  onClick={() => setPreviewArticle(null)}
+                  className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition cursor-pointer"
+                  title="Close preview"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body */}
+            <div className="flex-1 overflow-y-auto">
+              {/* Hero Banner */}
+              <div className="relative w-full h-64 bg-black overflow-hidden flex items-end p-6 md:p-8">
+                <img
+                  src={previewArticle.coverImage || '/images/news-hero.jpg'}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover opacity-65"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                <div className="relative z-10 text-white space-y-2 max-w-2xl">
+                  <span className="inline-block px-3 py-0.5 rounded-full text-xs font-bold bg-[#10CFC9]/25 text-[#10CFC9] border border-[#10CFC9]/30">
+                    {previewArticle.category || 'Press Release'}
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-light tracking-tight leading-tight">
+                    {previewArticle.title}
+                  </h3>
+                </div>
+              </div>
+
+              {/* Meta Row */}
+              <div className="border-b border-gray-100 px-6 md:px-8 py-3 bg-[#FCFDFC] flex flex-wrap items-center justify-between text-xs text-gray-500 gap-3">
+                <div className="flex flex-wrap items-center gap-4">
+                  <span className="flex items-center gap-1.5">
+                    <Calendar size={13} className="text-[#70B83A]" />
+                    <span>{previewArticle.date}</span>
+                  </span>
+                  {previewArticle.readTime && (
+                    <span className="flex items-center gap-1.5">
+                      <Clock size={13} className="text-[#10CFC9]" />
+                      <span>{previewArticle.readTime}</span>
+                    </span>
+                  )}
+                  {previewArticle.author && (
+                    <span className="flex items-center gap-1.5">
+                      <User size={13} className="text-gray-400" />
+                      <span>{previewArticle.author}</span>
+                    </span>
+                  )}
+                </div>
+                <span className="font-mono text-gray-400">Order: {previewArticle.order}</span>
+              </div>
+
+              {/* Content Body */}
+              <div className="p-6 md:p-8 space-y-8">
+                {/* Lead Summary */}
+                <p className="text-base font-medium text-gray-800 leading-relaxed italic border-l-4 border-[#70B83A] pl-4 bg-[#F8FAF8] py-2 rounded-r-xl">
+                  {previewArticle.summary}
+                </p>
+
+                {/* Formatted Rich Story */}
+                <div
+                  className="prose prose-sm md:prose-base max-w-none text-gray-800 leading-relaxed font-light
+                    prose-headings:font-bold prose-headings:text-[#141C16] prose-headings:tracking-tight
+                    prose-h2:text-xl md:prose-h2:2xl prose-h2:mt-6 prose-h2:mb-3
+                    prose-h3:text-lg md:prose-h3:xl prose-h3:mt-5 prose-h3:mb-2
+                    prose-p:my-3
+                    prose-strong:font-bold prose-strong:text-[#141C16]
+                    prose-em:italic
+                    prose-blockquote:border-l-4 prose-blockquote:border-[#70B83A] prose-blockquote:pl-4 prose-blockquote:py-1.5 prose-blockquote:my-4 prose-blockquote:italic prose-blockquote:bg-[#F0FDF4]/50 prose-blockquote:rounded-r-xl
+                    prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-1.5 prose-ul:my-4
+                    prose-ol:list-decimal prose-ol:pl-6 prose-ol:space-y-1.5 prose-ol:my-4
+                    prose-li:text-gray-700
+                    prose-a:text-[#007580] prose-a:underline hover:prose-a:text-[#70B83A]
+                    prose-img:rounded-xl prose-img:shadow-sm prose-img:my-4"
+                  dangerouslySetInnerHTML={{
+                    __html: renderRichContent(
+                      previewArticle.contentHtml ||
+                        (previewArticle.bodyParagraphs && previewArticle.bodyParagraphs.length > 0
+                          ? previewArticle.bodyParagraphs.map((p: string) => `<p>${p}</p>`).join('')
+                          : '')
+                    ),
+                  }}
+                />
+
+                {/* Milestones if any */}
+                {previewArticle.bulletPoints && previewArticle.bulletPoints.length > 0 && (
+                  <div className="p-6 rounded-2xl bg-[#F8FAF8] border border-gray-200">
+                    <h5 className="text-xs font-bold uppercase tracking-wider text-gray-600 mb-3">
+                      Key Highlights &amp; Milestones
+                    </h5>
+                    <ul className="space-y-2 text-sm text-gray-700">
+                      {previewArticle.bulletPoints.map((bp: string, idx: number) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <span className="w-2 h-2 rounded-full bg-[#10CFC9] mt-1.5 shrink-0" />
+                          <span>{bp}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Isolated Admin Footer */}
       <footer className="bg-white border-t border-gray-200/90 py-4 px-6 md:px-10 text-center text-xs text-gray-400 mt-auto">

@@ -16,19 +16,24 @@ export default async function NewsDetailPage({ params }: { params: { id: string 
   try {
     const conn = await connectToDatabase();
     if (conn) {
-      article = await News.findOne({
-        $or: [
-          { slug: params.id },
-          { _id: params.id.match(/^[0-9a-fA-F]{24}$/) ? params.id : null },
-        ],
-      }).lean();
+      const isObjectId = /^[0-9a-fA-F]{24}$/.test(params.id);
+      const orClauses: any[] = [
+        { slug: params.id },
+        { slug: params.id.toLowerCase() }
+      ];
+      if (isObjectId) {
+        orClauses.push({ _id: params.id });
+      }
+      article = await News.findOne({ $or: orClauses }).lean();
     }
   } catch (err) {
     console.warn('MongoDB lookup error in news/[id]:', err);
   }
 
   if (!article) {
-    article = initialNews.find((n) => n.slug === params.id);
+    article = initialNews.find(
+      (n) => n.slug.toLowerCase() === params.id.toLowerCase()
+    );
   }
 
   if (!article) {

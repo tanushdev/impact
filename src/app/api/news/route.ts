@@ -13,17 +13,29 @@ export async function GET(req: NextRequest) {
 
     const conn = await connectToDatabase();
     if (conn) {
-      const query: any = {};
-      if (category && category !== 'All') {
-        query.category = category;
-      }
-      if (year && year !== 'All') {
-        query.year = parseInt(year);
+      let newsList = await News.find({}).sort({ order: 1 });
+
+      // Auto-seed if empty
+      if (!newsList || newsList.length === 0) {
+        if (initialNews.length > 0) {
+          try {
+            await News.insertMany(initialNews);
+            newsList = await News.find({}).sort({ order: 1 });
+          } catch (seedErr) {
+            console.warn('Auto-seed in /api/news warning:', seedErr);
+          }
+        }
       }
 
-      const newsList = await News.find(query).sort({ order: 1 });
       if (newsList && newsList.length > 0) {
-        return NextResponse.json({ success: true, news: newsList });
+        let results = newsList;
+        if (category && category !== 'All') {
+          results = results.filter((n: any) => n.category.toLowerCase() === category.toLowerCase());
+        }
+        if (year && year !== 'All') {
+          results = results.filter((n: any) => n.year === parseInt(year));
+        }
+        return NextResponse.json({ success: true, news: results });
       }
     }
   } catch (err: any) {
@@ -45,6 +57,6 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     success: true,
-    news: filtered.map((n, i) => ({ ...n, _id: `seed-news-${i + 1}` })),
+    news: filtered.map((n: any, i) => ({ ...n, _id: n._id || `seed-news-${i + 1}` })),
   });
 }

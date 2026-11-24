@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import News from '@/models/News';
 import { isAdminAuthenticated } from '@/lib/adminAuth';
+import { initialNews } from '@/lib/seedData';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,9 +24,26 @@ function slugify(title: string): string {
 export async function GET(req: NextRequest) {
   if (!isAdminAuthenticated(req)) return unauthorized();
 
-  await connectToDatabase();
-  const news = await News.find({}).sort({ order: 1, createdAt: -1 }).lean();
-  return NextResponse.json({ success: true, news });
+  try {
+    await connectToDatabase();
+    let news = await News.find({}).sort({ order: 1, createdAt: -1 }).lean();
+
+    // Auto-seed if empty
+    if (!news || news.length === 0) {
+      if (initialNews.length > 0) {
+        try {
+          await News.insertMany(initialNews);
+          news = await News.find({}).sort({ order: 1, createdAt: -1 }).lean();
+        } catch (seedErr) {
+          console.warn('Auto-seed in admin/news warning:', seedErr);
+        }
+      }
+    }
+
+    return NextResponse.json({ success: true, news: news || [] });
+  } catch (err: any) {
+    return NextResponse.json({ success: true, news: initialNews.map((n: any, i) => ({ ...n, _id: 'seed-' + i })) });
+  }
 }
 
 // POST create new article
@@ -59,37 +77,30 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  await connectToDatabase();
+  const finalSlug = slug ? slugify(slug) : slugify(title);
 
-  const finalSlug = slug || slugify(title);
+  await connectToDatabase();
 
   // Check slug uniqueness
   const existing = await News.findOne({ slug: finalSlug });
-  if (existing) {
-    return NextResponse.json(
-      { success: false, message: `Slug "${finalSlug}" already exists. Please choose a unique title or edit slug.` },
-      { status: 400 }
-    );
-  }
-
-  const parsedYear = year || parseInt(date.split('-')[0]) || new Date().getFullYear();
+  const uniqueSlug = existing ? `${finalSlug}-${Date.now().toString().slice(-4)}` : finalSlug;
 
   const article = await News.create({
-    slug: finalSlug,
     title,
+    slug: uniqueSlug,
     date,
-    year: parsedYear,
+    year: year || parseInt(date.split('-')[0]) || new Date().getFullYear(),
     category,
     summary,
     coverImage,
     contentHtml,
-    bodyParagraphs,
+    bodyParagraphs: bodyParagraphs.length > 0 ? bodyParagraphs : [summary],
     images,
     bulletPoints,
     author,
     readTime,
-    featured,
-    order,
+    featured: Boolean(featured),
+    order: Number(order) || 0,
   });
 
   return NextResponse.json({ success: true, article }, { status: 201 });
