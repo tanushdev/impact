@@ -36,55 +36,57 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0F0C] flex flex-col">
-      {/* Top accent bar */}
-      <div className="h-1 w-full bg-gradient-to-r from-[#10CFC9] via-[#70B83A] to-[#10CFC9]" />
+    <div className="min-h-screen bg-[#F8FAF8] flex flex-col justify-between">
+      {/* Top Brand Accent Line */}
+      <div className="h-1.5 w-full bg-gradient-to-r from-[#10CFC9] via-[#70B83A] to-[#10CFC9]" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-16">
-        {/* Logo */}
-        <div className="mb-10">
+        {/* Brand Logo */}
+        <div className="mb-8">
           <Image
-            src="/images/figma_logo_146_15635.svg"
+            src="/images/figma_logo_dark.svg"
             alt="Impact Energies"
-            width={170}
-            height={44}
-            className="brightness-200 invert-0"
+            width={190}
+            height={48}
             priority
+            className="h-11 w-auto object-contain"
           />
         </div>
 
-        {/* Card */}
-        <div className="w-full max-w-[400px] bg-[#111A13] border border-white/[0.08] rounded-2xl shadow-2xl overflow-hidden">
-          {/* Card header */}
-          <div className="px-8 pt-8 pb-6 border-b border-white/[0.06]">
-            <div className="flex items-center gap-3 mb-1">
-              <div className="w-8 h-8 rounded-lg bg-[#70B83A]/15 flex items-center justify-center">
-                <Lock size={15} className="text-[#70B83A]" />
-              </div>
-              <h1 className="text-white text-xl font-bold tracking-tight">CMS Login</h1>
+        {/* Login Card */}
+        <div className="w-full max-w-[420px] bg-white border border-gray-200/90 rounded-2xl shadow-xl p-8">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-9 h-9 rounded-xl bg-[#F0FDF4] border border-[#DCFCE7] flex items-center justify-center text-[#70B83A]">
+              <Lock size={16} />
             </div>
-            <p className="text-gray-500 text-sm ml-11">News &amp; Media Administration</p>
+            <div>
+              <h1 className="text-xl font-bold text-[#141C16] tracking-tight">CMS Administration</h1>
+              <p className="text-xs text-gray-500">News &amp; Media Management Portal</p>
+            </div>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleLogin} className="px-8 py-7 space-y-5">
+          <div className="w-full border-t border-gray-100 my-6" />
+
+          <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">
-                Admin Password
+              <label className="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-2">
+                Administrator Password
               </label>
               <div className="relative">
                 <input
                   type={showPw ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter admin password"
+                  placeholder="Enter administrator password"
                   required
-                  className="w-full px-4 py-3 pr-12 rounded-xl bg-[#0A0F0C] border border-white/10 text-white placeholder-gray-600 text-[15px] focus:outline-none focus:border-[#10CFC9] focus:ring-1 focus:ring-[#10CFC9]/30 transition"
+                  autoFocus
+                  className="w-full px-4 py-3 pr-11 rounded-xl bg-white border border-gray-300 text-[#141C16] placeholder-gray-400 text-[15px] focus:outline-none focus:border-[#70B83A] focus:ring-2 focus:ring-[#70B83A]/20 transition"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw(!showPw)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
+                  aria-label={showPw ? 'Hide password' : 'Show password'}
                 >
                   {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -92,27 +94,29 @@ export default function AdminLoginPage() {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-                <span className="shrink-0">⚠</span>
-                {error}
+              <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-center gap-2">
+                <span className="shrink-0 font-bold">!</span>
+                <span>{error}</span>
               </div>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 rounded-xl bg-[#70B83A] hover:bg-[#5ea32a] active:bg-[#4f8f24] text-white font-semibold text-[15px] transition-colors disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-[#70B83A]/20"
+              className="w-full py-3.5 rounded-xl bg-[#70B83A] hover:bg-[#5E942D] active:bg-[#508125] text-white font-semibold text-[15px] transition-colors disabled:opacity-60 shadow-md shadow-[#70B83A]/20 cursor-pointer"
             >
-              {loading ? 'Signing in…' : 'Sign In to CMS'}
+              {loading ? 'Verifying Credentials…' : 'Sign In to CMS'}
             </button>
           </form>
         </div>
 
-        {/* Footer note */}
-        <div className="mt-8 text-center space-y-1">
-          <p className="text-gray-600 text-xs">Impact Energies · News &amp; Media CMS v1.0</p>
-          <p className="text-gray-700 text-xs">Restricted access — authorised personnel only</p>
-        </div>
+        <p className="text-center text-gray-400 text-xs mt-8 font-light">
+          Impact Energies Internal News Management &bull; Restricted Access
+        </p>
+      </div>
+
+      <div className="py-4 text-center text-gray-400 text-xs border-t border-gray-200/60 bg-white">
+        &copy; {new Date().getFullYear()} Impact Energies. All rights reserved.
       </div>
     </div>
   );

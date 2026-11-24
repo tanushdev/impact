@@ -17,6 +17,12 @@ import {
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
+
+  // Completely isolate CMS admin pages - do not render public header
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [desktopAboutOpen, setDesktopAboutOpen] = useState(false);
   const [desktopAssetsOpen, setDesktopAssetsOpen] = useState(false);

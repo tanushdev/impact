@@ -9,6 +9,11 @@ import { Phone, Mail, MapPin, ChevronRight } from 'lucide-react';
 export const Footer: React.FC = () => {
   const pathname = usePathname();
 
+  // Completely isolate CMS admin pages - do not render public footer
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   // Remove footer on corporate-responsibility page only
   if (
     pathname === '/corporate-responsibility' ||
