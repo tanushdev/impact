@@ -72,10 +72,10 @@ export default function TranskeiAlgoaPage() {
             Geological Setting
           </a>
           <a
-            href="#transkei-prospectivity"
+            href="#natal-trough-prospectivity"
             className="px-5 py-2.5 rounded-full bg-[#FAFBF9] border border-gray-200 font-semibold text-[15px] text-gray-800 hover:border-[#10CFC9] hover:text-[#007580] transition-colors whitespace-nowrap"
           >
-            Transkei Prospectivity
+            Natal Trough Prospectivity
           </a>
           <a
             href="#algoa-prospectivity"
@@ -164,42 +164,37 @@ export default function TranskeiAlgoaPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-4 text-[15px] text-gray-700 leading-relaxed font-normal">
               <p>
-                The Algoa/Gamtoos and Durban/Transkei basins are pull-apart basins, related to the
-                opening of the Southern Ocean during the breakup of Gondwana. The Algoa/Gamtoos
-                basins form the extension of the Outeniqua Basin into the east coast. The southern and
-                northern margins of the basin are bounded by major transform faults: The
-                Agulhas-Falkland Fracture Zone (AFFZ) to the south and Mozambique Fracture Zone (MFZ)
-                to the north. These fracture zones have played a key role in the structural evolution
-                and the distribution of the basins along the south eastern coast of South Africa.
+                The East Coast of South Africa, where Impact has exploration licenses, comprise two distinct geological settings: the South Outeniqua Basin and the Natal Trough Basin.
               </p>
               <p>
-                Significant petroleum plays have been identified along this transform margin,
-                supported by the discovery of oil and gas in the Outeniqua Basin and the commercial
-                Brulpadda and Luiperd discoveries.
+                The Natal Trough Basin is an unexplored basin, which shares many of the geological fundamentals which have proven successful in both the prolific Orange basin; the South Outeniqua Basin contains the world-class Brulpadda and Luiperd gas condensate discoveries.
+              </p>
+              <p>
+                Figure 1 shows the structural setting of the East Coast of South Africa.
               </p>
             </div>
 
-            {/* Figure 2 Card */}
+            {/* Figure 1 Card */}
             <div className="lg:col-span-5 flex flex-col items-center">
               <Image
                 src="/images/transkei-geology.png"
-                alt="Figure 2: Structural elements map with Albian fairways and maturity window outlines superimposed"
+                alt="Figure 1: Structural elements map with Albian fairways and maturity window outlines superimposed"
                 width={900}
                 height={674}
                 unoptimized
                 className="w-full max-w-[520px] h-auto object-contain rounded-xl shadow-xs border border-gray-100"
               />
               <p className="text-[15px] text-gray-600 italic mt-2.5 text-center">
-                Figure 2: Structural elements map with Albian fairways and maturity window outlines superimposed
+                Figure 1: Structural elements map with Albian fairways and maturity window outlines superimposed
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. TRANSKEI PROSPECTIVITY */}
+      {/* 5. NATAL TROUGH PROSPECTIVITY */}
       <section
-        id="transkei-prospectivity"
+        id="natal-trough-prospectivity"
         className="w-full py-16 px-6 md:px-12 bg-white border-t border-gray-200/80"
       >
         <div className="max-w-[1360px] mx-auto space-y-6">
@@ -207,40 +202,31 @@ export default function TranskeiAlgoaPage() {
             Prospectivity
           </span>
           <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
-            Transkei Prospectivity
+            Natal Trough Prospectivity
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-4 text-[15px] text-gray-700 leading-relaxed font-normal">
               <p>
-                The Transkei block is a Cretaceous deep-water play with a series of stacked, basin
-                floor fan complexes.
+                Impact licenses large parts of the Natal Trough Basin for exploration. The basin contains the world’s largest transform fault, the Agulhas-Falklands Fracture Zone (AFFZ) which divides the narrow continental shelf from oceanic crust of the Natal Trough (Figure 2). The AFFZ provides an ultra-steep dip slope against which sands can pinch-out. Outboard in the Natal Trough, sands pinch-out against a counter-regional dip slope. Regional analysis suggests the basin is underlain by lower-middle Cretaceous source rocks, although to date these have not been penetrated.
               </p>
               <p>
-                The 2D seismic acquired by Impact in 2013 and 2017 has identified multiple leads and
-                prospects across the block, which appear to have common elements with the
-                discoveries in the Outeniqua Basin. High amplitude anomalies on 2D seismic suggest the
-                presence of good quality sandstones.
-              </p>
-              <p>
-                Geochemical studies indicate good potential for oil and gas generation in the basin.
-                Regional analysis indicates that the Aptian-Cenomanian source rock is mature for oil
-                and gas generation across large parts of the basin.
+                The basin is covered in variably spaced 2D seismic which has enabled several large submarine fan bodies to be identified, with sands derived from continental South Africa. Seismic amplitude anomalies are supportive of the prospectivity of these fan bodies and although exploration is at an early stage, Impact is encouraged by the data analysed to date.
               </p>
             </div>
 
-            {/* Figure 3 Card */}
+            {/* Figure 2 Card */}
             <div className="lg:col-span-5 flex flex-col items-center">
               <Image
                 src="/images/transkei-geoseismic-dipline.png"
-                alt="Figure 3. Geoseismic dipline describing the petroleum geological elements of the Natal Trough"
+                alt="Figure 2: Geoseismic dipline describing the petroleum geological elements of the Natal Trough"
                 width={914}
                 height={686}
                 unoptimized
                 className="w-full max-w-[520px] h-auto object-contain rounded-xl shadow-xs border border-gray-100"
               />
               <p className="text-[15px] text-gray-600 italic mt-2.5 text-center">
-                Figure 3. Geoseismic dipline describing the petroleum geological elements of the Natal Trough
+                Figure 2: Geoseismic dipline describing the petroleum geological elements of the Natal Trough
               </p>
             </div>
           </div>
@@ -261,34 +247,25 @@ export default function TranskeiAlgoaPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-4 text-[15px] text-gray-700 leading-relaxed font-normal">
               <p>
-                The Algoa Basin is located in the northernmost part of the Outeniqua Basin system.
+                The Algoa area lies within the north-eastern part of the South Outeniqua basin. It bears similar play concepts to Block 11B/12B, operated by Total, which contains the Brulpadda and Luiperd gas condensate discoveries. These involve Lower Cretaceous basin floor fan sands pinching-out southwards against the inverted structural high of the Dias Marginal Ridge.
               </p>
               <p>
-                The basin has proven petroleum potential with oil and gas shows in onshore and
-                shallow-water wells.
-              </p>
-              <p>
-                Offshore, the Algoa block extends the petroleum play into deeper water where thicker
-                post-rift sediments provide the necessary burial depth for source rock maturation.
-              </p>
-              <p>
-                Multiple structural and stratigraphic traps have been mapped on existing seismic
-                data. These include tilted fault blocks, roll-over anticlines, and basin floor fans.
+                Figure 4 shows the configuration and depositional systems of the South Outeniqua basin relative to the Natal Trough during the late Aptian (approximately 113Mya). As illustrated, the Algoa area sits at the eastern end of the fairway proven by the Bulpadda and Luiperd gas condensate fields.
               </p>
             </div>
 
-            {/* Figure 4 Card */}
+            {/* Figure 3 Card */}
             <div className="lg:col-span-5 flex flex-col items-center">
               <Image
                 src="/images/transkei-depositional-block.png"
-                alt="Figure 4: Aptian depositional block diagram of South Africa, offshore sedimentary basins"
+                alt="Figure 3: Aptian depositional block diagram of South Africa, offshore sedimentary basins"
                 width={914}
                 height={686}
                 unoptimized
                 className="w-full max-w-[520px] h-auto object-contain rounded-xl shadow-xs border border-gray-100"
               />
               <p className="text-[15px] text-gray-600 italic mt-2.5 text-center">
-                Figure 4: Aptian depositional block diagram of South Africa, offshore sedimentary basins
+                Figure 3: Aptian depositional block diagram of South Africa, offshore sedimentary basins
               </p>
             </div>
           </div>
